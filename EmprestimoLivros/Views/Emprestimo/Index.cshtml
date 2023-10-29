@@ -1,0 +1,51 @@
+﻿@model IEnumerable<EmprestimosModel> //Como vai ser uma lista de informações, então vai ser do tipo IEnumerable
+
+<div class="container">
+
+    <div class="d-flex justify-content-between align-items-center mb-5"> 
+        <h1>Emprestimos</h1>
+        <a class="btn btn-success mx-2" asp-controller="Emprestimo" asp-action="Cadastrar"><i class="bi bi-file-earmark-plus mx-2"></i>Cadastrar novo Emprestimo</a>
+    </div>
+
+    
+    @if (TempData["MensagemSucesso"] != null) //Se a mensagem for diferente de null, vai exibir na tela e chamar a mensagem de cada operação
+    {
+        <div class="alert alert-success text-bg-light" role="alert">
+            @TempData["MensagemSucesso"]
+        </div>
+    
+    }
+
+<table id="Emprestimos" class="table table-light table-hover mt-5"> 
+    <thead>
+        <tr>
+            <th scope="col">Recebedor</th> 
+            <th scope="col">Fornecedor</th>
+            <th scope="col">Livro</th> 
+            <th scope="col">Utilma Atualização</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        
+        @if (Model != null)//Se o model for diferente de null, vai cair no foreach
+        {
+            @foreach (var emprestimo in Model)//Para cada registro que tem dentro do Model(EmprestimoModel), vai criar um elemento a baixo
+            {
+                <tr>
+                    
+                    <th scope="row">@emprestimo.Recebedor</th>
+                    <td>@emprestimo.Fornecedor</td>
+                    <td>@emprestimo.LivroEmprestado</td>
+                    <td>@emprestimo.DataUltimaAtualizacao</td>
+                    <td>
+                         <a asp-controller="Emprestimo" asp-action="Editar" asp-route-id="@emprestimo.Id" class="btn btn-warning mx-2"><i class="bi bi-pencil-square mx-2"></i>Editar</a><!--asp-route-id="emprestimo.Id" vai falar que quando for editar, vai puxar pelo id por ser informação unica  -->
+                        <a asp-controller="Emprestimo" asp-action="Excluir" asp-route-id="@emprestimo.Id" class="btn btn-danger mx-2"><i class="bi bi-trash3-fill m-2"></i>Excluir</a><!--Para nao excluir a lista toda, entao tem que excluir pelo id, passando o asp-route-id="emprestimo.Id"-->
+                    </td>
+                </tr>
+            }
+                      
+        }
+    </tbody>
+</table>
+</div>
